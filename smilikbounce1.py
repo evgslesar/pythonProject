@@ -26,7 +26,7 @@ font = pygame.font.SysFont("Times", 24)
 while keep_going:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            keep_going == False
+            keep_going = False
     picx += speedx
     picy += speedy
 
@@ -45,4 +45,24 @@ while keep_going:
     paddlex = pygame.mouse.get_pos()[0]
     paddlex -= paddlew/2
     pygame.draw.rect(screen, WHITE, (paddlex, paddley, paddlew, paddleh))
+
+    if picy + pich >= paddley and picy + \
+            pich <= paddley + paddleh and speedy > 0:
+        if picx + picw / 2 >= paddlex and picx + \
+            picw / 2 <= paddlex + paddlew:
+            points += 1
+            speedy = -speedy
+
+    draw_string = "Lives: " + str(lives) + "Points: " + str(points)
+
+    text = font.render(draw_string, True, WHITE)
+    text_rect = text.get_rect()
+    text_rect.centerx = screen.get_rect().centerx
+    text_rect.y = 10
+    screen.blit(text, text_rect)
+    pygame.display.update()
+    timer.tick(60)
+
+pygame.quit()
+
 

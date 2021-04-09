@@ -27,18 +27,28 @@ while keep_going:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             keep_going = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_F1:
+                points = 0
+                lives = 5
+                picx = 0
+                picy = 0
+                speedx = 5
+                speedy = 5
     picx += speedx
     picy += speedy
 
     if picx <= 0 or picx + pic.get_width() >= 800:
-        speedx = - speedx
+        speedx = - speedx * 1.1
 
     if picy <= 0:
-        speedy = -speedy
+        speedy = -speedy + 1
 
     if picy >= 500:
         lives -= 1
-        speedy = -speedy
+        speedy = -5
+        speedx = 5
+        picy = 499
     screen.fill(BLACK)
     screen.blit(pic, (picx, picy))
 
@@ -54,6 +64,11 @@ while keep_going:
             speedy = -speedy
 
     draw_string = "Lives: " + str(lives) + "Points: " + str(points)
+
+    if lives < 1:
+        speedx = speedy = 0
+        draw_string = "Игра окончена. Количество баллов: " + str(points)
+        draw_string += ". Нажмите F1, чтобы сыграть ещё раз."
 
     text = font.render(draw_string, True, WHITE)
     text_rect = text.get_rect()

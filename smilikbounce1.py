@@ -22,6 +22,9 @@ pich = 100
 points = 0
 lives = 5
 font = pygame.font.SysFont("Times", 24)
+pygame.mixer.init()
+pop = pygame.mixer.Sound("pop.wav")
+
 
 while keep_going:
     for event in pygame.event.get():
@@ -62,6 +65,7 @@ while keep_going:
             picw / 2 <= paddlex + paddlew:
             points += 1
             speedy = -speedy
+            pop.play()
 
     draw_string = "Lives: " + str(lives) + "Points: " + str(points)
 

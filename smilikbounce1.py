@@ -73,7 +73,6 @@ while keep_going:
         speedx = speedy = 0
         draw_string = "Игра окончена. Количество баллов: " + str(points)
         draw_string += ". Нажмите F1, чтобы сыграть ещё раз."
-
     text = font.render(draw_string, True, WHITE)
     text_rect = text.get_rect()
     text_rect.centerx = screen.get_rect().centerx

@@ -8,13 +8,13 @@ screen = pygame.display.set_mode([800, 600])
 keep_going = True
 GREEN = (0, 255, 0)
 
-radius = 45
+radius = 50
 
 colors = [0]*100
 locations = [0]*100
 sizes = [0]*100
 while keep_going:
-    for n in range(120):
+    for n in range(100):
         colors[n] = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
         sizes[n] = (random.randint(10,100))
         new_x = locations[n][0] + 1
@@ -30,7 +30,7 @@ while keep_going:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    keep_going= False
+                    keep_going = False
             pygame.display.update()
 
 

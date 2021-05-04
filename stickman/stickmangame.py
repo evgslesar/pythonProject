@@ -154,7 +154,46 @@ class StickFigureSprite(Sprite):
             self.x = 0
             left = False
 
+        for sprite in self.game.sprites:
+            if sprite == self:
+                continue
+            sprite_co = sprite.coords()
+            if top and self.y < 0 and collided_top(co, sprite_co):
+                self.y = -self.y
+                top = False
+            if bottom and self.y > 0 and collided_bottom(self.y, co, sprite_co):
+                self.y = sprite_co.y1 - co.y2
+                if self.y < 0:
+                    self.y = 0
+                bottom = False
+                top = False
+            if bottom and falling and self.y == 0 \
+                and co.y2 < self.game.canvas_height \
+                and collided_bottom(1, co, sprite_co):
+                falling = False
+            if left and self.x < 0 and collided_left(co, sprite_co):
+                self.x = 0
+                left = False
+            if right and self.x > 0 and collided_right(co, sprite_co):
+                self.x = 0
+                if sprite.endgame:
+                    self.game.running = False
+                right = False
+                if sprite.endgame:
+                    self.game.running = False
+        if falling and bottom and self.y == 0 \
+            and co.y2 < self.game.canvas_height:
+            self.y = 4
+        self.game.canvas.move(self.image, self.x, self.y)
 
+class DoorSprite(Sprite):
+    def __init__(self, game, photo_image, x, y, width, height):
+        Sprite.__init__(self, game)
+        self.photo_image = photo_image
+        self.image = game.canvas.create_image(x, y, \
+                image=self.photo_image, anchor='nw')
+        self.coordinates = Coords(x, y, x + (width/2), y + height)
+        self.endgame = True
 
 def within_x(co1, co2):
     if (co1.x1 > co2.x1 and co1.x1 < co2.x2) \
@@ -230,5 +269,10 @@ g.sprites.append(platform7)
 g.sprites.append(platform8)
 g.sprites.append(platform9)
 g.sprites.append(platform10)
+
+door = DoorSprite(g, PhotoImage(file='door1.gif'), 45, 30, 40, 35)
+g.sprites.append(door)
+sf = StickFigureSprite(g)
+g.sprites.append(sf)
 
 g.mainloop()

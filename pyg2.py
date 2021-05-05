@@ -1,15 +1,20 @@
-import pygame
+# -*- coding: utf-8 -*-
 
-pygame.init()
-screen = pygame.display.set_mode([800, 600])
-keep_going = True
-
-pic = pygame.image.load("CrazySmile.bmp")
-while keep_going:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            keep_going = False
-    screen.blit(pic, (100, 100))
-    pygame.display.update()
-
-pygame.quit()
+import random
+secret = random.randint(1, 99)
+guess = 0
+tries = 0
+print 'Эй на палубе! Я ужасный пират Робертс, и у меня есть секрет!'
+print 'Это число от 1 до 99. Я дам тебе 6 попыток.'
+while guess != secret and tries < 6:
+    guess = input('Твой вариант?')
+    if guess < secret:
+        print "Это слишком мало, презренный пес!"
+    elif guess > secret:
+        print "Это слишком много, сухопутная крыса!"
+    tries = tries + 1
+if guess == secret:
+    print "Хватит! Ты угадал мой секрет!"
+else:
+    print "Попытки кончились!"
+    print "Это число ", secret

@@ -103,7 +103,7 @@ class Truck(Vehicle):
                 Truck.dead_time += 1
 
 class OtherTruck(Truck):
-    fuel_rate = 100
+    fuel_rate = 10
 
 class Autoloader(Vehicle):
     fuel_rate = 30
@@ -189,10 +189,14 @@ for number in range(5):
     truck = Truck(model='Kamaz #{}'.format(number), body_space=5000)
     moscow.truck_arrived(truck)
     trucks.append(truck)
-for number in range(5):
-    truck = OtherTruck(model='Magirus #{}'.format(number), body_space=10000)
-    moscow.truck_arrived(truck)
-    trucks.append(truck)
+# for number in range(1):
+#     truck = OtherTruck(model='Magirus #{}'.format(number), body_space=10000)
+#     moscow.truck_arrived(truck)
+#     trucks.append(truck)
+# for number in range(10):
+#     truck = OtherTruck(model='Gasel #{}'.format(number), body_space=1200)
+#     moscow.truck_arrived(truck)
+#     trucks.append(truck)
 
 hour = 0
 while piter.content < TOTAL_CARGO:

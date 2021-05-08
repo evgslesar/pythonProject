@@ -190,10 +190,6 @@ for number in range(5):
     moscow.truck_arrived(truck)
     trucks.append(truck)
 for number in range(5):
-    truck = Truck(model='Zil #{}'.format(number), body_space=3000)
-    moscow.truck_arrived(truck)
-    trucks.append(truck)
-for number in range(5):
     truck = OtherTruck(model='Magirus #{}'.format(number), body_space=10000)
     moscow.truck_arrived(truck)
     trucks.append(truck)

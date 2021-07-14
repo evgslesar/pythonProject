@@ -20,6 +20,7 @@ while keep_going:
 
     picx += speed
     picy += speed
+    print(ProcessLookupError)
 
     if picx <= 0 or picx + pic.get_width() >= 600:
         speed = -speed

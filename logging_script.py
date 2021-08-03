@@ -1,20 +1,25 @@
 import logging
 import requests
 
-logging.basicConfig(level='DEBUG')
-logger = logging.getLogger()
+logging.basicConfig()
+# logger = logging.getLogger()
+# print(logger)
 
-logging.getLogger('urllib3').setLevel('CRITICAL')
-# for key in logging.Logger.manager.loggerDict:
-#     print(key)
+app_logger = logging.getLogger('app_logger')
 
-def main(name):
-    logger.debug(f'Enter in the main() function: name = {name}')
+console_handler = logging.StreamHandler()
+app_logger.addHandler(console_handler)
 
-    r = requests.get('https://www.google.ru')
+f = logging.Formatter(fmt='%(levelname)s - %(name)s - %(message)s')
+console_handler.setFormatter(f)
+
+utils_logger = logging.getLogger('app_logger.utils')
+utils_logger.setLevel('DEBUG')
 
 
+def main():
+    utils_logger.debug('Hello')
 
 if __name__ == '__main__':
-    main('oleg')
+    main()
 

@@ -1,45 +1,40 @@
-import requests
-from bs4 import BeautifulSoup
 import csv
+from peewee import *
 
-def get_html(url):
-    r = requests.get(url)
-    return r.text
+db = PostgresqlDatabase(database='test', user='postgres', password='1', host='localhost')
 
-def refined(s):
-    r = s.split(' ')[0]
-    return r.replace(',', '')
 
-def write_csv(data):
-    with open('plugins.csv', 'a') as f:
-        writer = csv.writer(f)
+class Coin(Model):
+    name = CharField()
+    url = TextField()
+    price = CharField()
 
-        writer.writerow([data['name'],data['url'],data['reviews']])
+    class Meta:
+        database = db
 
-def get_data(html):
-    soup = BeautifulSoup(html, 'lxml')
-    popular = soup.find_all('section')[3]
-    plugins = popular.find_all('article')
 
-    for plugin in plugins:
-        name = plugin.find('h3').text
-        url = plugin.find('h3').find('a').get('href')
-
-        r = plugin.find('span', class_='rating-count').find('a').text
-        rating = refined(r)
-
-        data = {
-            'name': name,
-            'url': url,
-            'reviews': rating
-        }
-        write_csv(data)
-
-    # return plugins
 
 def main():
-    url = 'https://wordpress.org/plugins/'
-    print(get_data(get_html(url)))
+
+    db.connect()
+    db.drop_tables([Coin])
+    db.create_tables([Coin])
+
+    with open('cmc.csv') as f:
+        order = ['name', 'url', 'price']
+        reader = csv.DictReader(f, fieldnames=order)
+
+        coins = list(reader)
+
+        # for row in coins:
+            # coin = Coin(name=row['name'], url=row['url'], price=row['price'])
+            # coin.save()
+
+        with db.atomic():
+            # for row in coins:
+            #     Coin.create(**row)
+            for index in range(0, len(coins), 100):
+                Coin.insert_many(coins[index:index+100]).execute()
 
 
 if __name__ == '__main__':
